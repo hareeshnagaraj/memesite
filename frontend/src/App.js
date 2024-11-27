@@ -56,22 +56,28 @@ const App = () => {
   };
 
   return (
-    <div>
-      <h1>Memecoin App</h1>
-      <input value={address} onChange={(e) => setAddress(e.target.value)} />
-      <button onClick={fetchTokenData}>Fetch</button>
+    <div className="container">
+      <h1>Memecoin Explorer</h1>
+      <div>
+        <input 
+          value={address} 
+          onChange={(e) => setAddress(e.target.value)} 
+          placeholder="Enter token address..."
+        />
+        <button onClick={fetchTokenData}>Fetch</button>
+      </div>
       {data && (
-        <div>
+        <div className="token-info">
           {data.imageUrl && (
             <img 
               src={data.imageUrl} 
               alt={`${data.symbol} logo`} 
-              style={{ width: '32px', height: '32px', marginRight: '10px' }}
+              style={{ width: '64px', height: '64px' }}
             />
           )}
           <p>Symbol: {data.symbol}</p>
           <p>Decimals: {data.decimals}</p>
-          <p>Price (USD): {data.priceUSD}</p>
+          <p>Price (USD): ${data.priceUSD}</p>
         </div>
       )}
     </div>

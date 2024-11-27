@@ -1,5 +1,4 @@
-# memesite
-# Memecoin Site Generator
+# memesite generator
 
 Generate a professional landing page for your memecoin project in minutes! This React-based template includes everything you need to showcase your cryptocurrency.
 
@@ -15,6 +14,10 @@ npm install
 ```
 
 3. Start the development server:
+```
+npm start
+```
+
 Your site will be available at http://localhost:3000
 
 ## Customization

@@ -3,7 +3,8 @@ import { Contract } from "ethers";
 import { JsonRpcProvider } from "ethers/providers";
 
 const App = () => {
-  const [address, setAddress] = useState("");
+  // BRETT is our default
+  const [address, setAddress] = useState("0x532f27101965dd16442e59d40670faf5ebb142e4");
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -32,14 +33,21 @@ const App = () => {
         tokenContract.decimals(),
       ]);
 
-      const requestString = `https://api.coingecko.com/api/v3/simple/token_price/ethereum?contract_addresses=${address}&vs_currencies=usd`
-      console.log(requestString)
+      const requestString = `https://api.coingecko.com/api/v3/coins/base/contract/${address}`;
+      console.log(requestString);
       const response = await fetch(requestString);
-      console.log(`response loaded ${JSON.stringify(response)}`)
-      const priceData = await response.json();
-      const priceUSD = priceData[address.toLowerCase()]?.usd || "N/A";
+      console.log(`response loaded ${JSON.stringify(response)}`);
+      const tokenData = await response.json();
+      
+      const priceUSD = tokenData.market_data?.current_price?.usd || "N/A";
+      const imageUrl = tokenData.image?.small || null;
 
-      setData({ symbol, decimals, priceUSD });
+      setData({ 
+        symbol, 
+        decimals, 
+        priceUSD,
+        imageUrl 
+      });
     } catch (error) {
       console.error("Error fetching token data:", error);
     } finally {
@@ -54,6 +62,13 @@ const App = () => {
       <button onClick={fetchTokenData}>Fetch</button>
       {data && (
         <div>
+          {data.imageUrl && (
+            <img 
+              src={data.imageUrl} 
+              alt={`${data.symbol} logo`} 
+              style={{ width: '32px', height: '32px', marginRight: '10px' }}
+            />
+          )}
           <p>Symbol: {data.symbol}</p>
           <p>Decimals: {data.decimals}</p>
           <p>Price (USD): {data.priceUSD}</p>
